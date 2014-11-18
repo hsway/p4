@@ -79,3 +79,17 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+from Susan, https://piazza.com/class/hykay018bam4zp?cid=494
+If you want more control of whether debug bar displays you can add this code to your global.php file:
+*/
+
+if(Config::get('app.debug_bar') == true) {
+	Debugbar::enable();
+}
+else {
+	Debugbar::disable();
+}
+
+// then add 'debug_bar' setting to app.php files for appropriate environment

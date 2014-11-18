@@ -14,6 +14,6 @@ return array(
 	*/
 
 	'debug' => false,
-	'debug_bar' => false,
+	'debug_bar' => true,
 
 );
