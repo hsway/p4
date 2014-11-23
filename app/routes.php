@@ -16,6 +16,16 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+/**
+* User
+* (Explicit Routing)
+*/
+Route::get('/signup','UserController@getSignup' );
+Route::get('/login', 'UserController@getLogin' );
+Route::post('/signup', 'UserController@postSignup' );
+Route::post('/login', 'UserController@postLogin' );
+Route::get('/logout', 'UserController@getLogout' );
+
 Route::get('/debug', function() {
 
     echo '<pre>';
