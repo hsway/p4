@@ -13,18 +13,25 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('index');
 });
 
 /**
-* User
-* (Explicit Routing)
-*/
+ * User
+ * (Explicit Routing)
+ */
 Route::get('/signup','UserController@getSignup' );
-Route::get('/login', 'UserController@getLogin' );
 Route::post('/signup', 'UserController@postSignup' );
+Route::get('/login', 'UserController@getLogin' );
 Route::post('/login', 'UserController@postLogin' );
 Route::get('/logout', 'UserController@getLogout' );
+
+
+/**
+ * Tag
+ * (Implicit RESTful Routing)
+ */
+Route::resource('shoe', 'ShoeController');
 
 Route::get('/debug', function() {
 

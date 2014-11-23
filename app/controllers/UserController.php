@@ -2,12 +2,11 @@
 
 class UserController extends BaseController {
 
-	/**
+   /**
 	*
 	*/
 	public function __construct() {
 
-		# Make sure BaseController construct gets called
 		parent::__construct();
 
         $this->beforeFilter('guest',
@@ -18,7 +17,7 @@ class UserController extends BaseController {
     }
 
 
-    /**
+   /**
 	* Show the new user signup form
 	* @return View
 	*/
@@ -28,22 +27,21 @@ class UserController extends BaseController {
 
 	}
 
-	/**
+   /**
 	* Process the new user signup
 	* @return Redirect
 	*/
 	public function postSignup() {
 
-		# Step 1) Define the rules
 		$rules = array(
+			'first_name' => 'required',
+			'last_name' => 'required',
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|min:6|confirmed'
 		);
 
-		# Step 2)
 		$validator = Validator::make(Input::all(), $rules);
 
-		# Step 3
 		if($validator->fails()) {
 
 			return Redirect::to('/signup')
@@ -67,14 +65,13 @@ class UserController extends BaseController {
 				->withInput();
 		}
 
-		# Log in
 		Auth::login($user);
 
 		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple!');
 
 	}
 
-	/**
+   /**
 	* Display the login form
 	* @return View
 	*/
@@ -84,7 +81,7 @@ class UserController extends BaseController {
 
 	}
 
-	/**
+   /**
 	* Process the login form
 	* @return View
 	*/
@@ -92,9 +89,8 @@ class UserController extends BaseController {
 
 		$credentials = Input::only('email', 'password');
 
-		# Note we don't have to hash the password before attempting to auth - Auth::attempt will take care of that for us
 		if (Auth::attempt($credentials, $remember = false)) {
-			return Redirect::intended('/')->with('flash_message', 'Welcome Back!');
+			return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Auth::user()->first_name . '!');
 		}
 		else {
 			return Redirect::to('/login')
@@ -107,16 +103,13 @@ class UserController extends BaseController {
 	}
 
 
-	/**
+   /**
 	* Logout
 	* @return Redirect
 	*/
 	public function getLogout() {
 
-		# Log out
 		Auth::logout();
-
-		# Send them to the homepage
 		return Redirect::to('/');
 
 	}

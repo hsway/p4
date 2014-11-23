@@ -1,6 +1,7 @@
 @extends('_master')
 
 @section('content')
+
 <h1>Registration form for Run Simple</h1>
 
 @foreach($errors->all() as $message)
@@ -33,4 +34,5 @@
     {{ Form::submit('Sign up') }}
 
 {{ Form::close() }}
+
 @stop

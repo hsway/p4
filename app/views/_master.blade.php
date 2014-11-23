@@ -9,8 +9,22 @@
 <body>
     <div class="container">
         <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand">Home</a>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">Home</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @if(Auth::check())
+                            <li><a href='/shoe'>List shoes</a></li>
+                            <li><a href='/shoe/create'>Add shoes</a></li>
+                            <li><a href='/logout'>Log out {{ Auth::user()->email; }}</a></li>
+                        @else
+                            <li><a href='/signup'>Sign up</a></li>
+                            <li><a href='/login'>Log in</a></li>
+                        @endif
+                    </ul>
+                </div>
             </div>
         </nav>
 
@@ -19,6 +33,8 @@
         @endif
 
         @yield('content')
+
     </div>
+
 </body>
 </html>
