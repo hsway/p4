@@ -79,7 +79,7 @@ class ShoeController extends \BaseController {
 
 		return Redirect::action('ShoeController@index')->with('flash_message', 'Shoe added');
 		// from demo
-	    // return Redirect::action('TagController@index')->with('flash_message','Your tag been added.');
+	    // return Redirect::action('ShoeController@index')->with('flash_message','Your shoe been added.');
 
 	}
 
@@ -93,13 +93,13 @@ class ShoeController extends \BaseController {
 	public function show($id) {
 
 		try {
-			$tag = Tag::findOrFail($id);
+			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/tag')->with('flash_message', 'Tag not found');
+			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		return View::make('tag_show')->with('tag', $tag);
+		return View::make('shoe_show')->with('shoe', $shoe);
 	}
 
 
@@ -112,14 +112,14 @@ class ShoeController extends \BaseController {
 	public function edit($id) {
 
 		try {
-			$tag = Tag::findOrFail($id);
+			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/tag')->with('flash_message', 'Tag not found');
+			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		# Pass with the $tag object so we can do model binding on the form
-		return View::make('tag_edit')->with('tag', $tag);
+		# Pass with the $shoe object so we can do model binding on the form
+		return View::make('shoe_edit')->with('shoe', $shoe);
 
 	}
 
@@ -133,16 +133,16 @@ class ShoeController extends \BaseController {
 	public function update($id) {
 
 		try {
-			$tag = Tag::findOrFail($id);
+			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/tag')->with('flash_message', 'Tag not found');
+			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		$tag->name = Input::get('name');
-		$tag->save();
+		$shoe->name = Input::get('name');
+		$shoe->save();
 
-		return Redirect::action('TagController@index')->with('flash_message','Your tag has been saved.');
+		return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been saved.');
 
 	}
 
@@ -156,17 +156,17 @@ class ShoeController extends \BaseController {
 	public function destroy($id) {
 
 		try {
-			$tag = Tag::findOrFail($id);
+			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/tag')->with('flash_message', 'Tag not found');
+			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		# Note there's a `deleting` Model event which makes sure book_tag entries are also destroyed
-		# See Tag.php for more details
-		Tag::destroy($id);
+		# Note there's a `deleting` Model event which makes sure linked run entries are also destroyed
+		# See Shoe.php for more details
+		Shoe::destroy($id);
 
-		return Redirect::action('TagController@index')->with('flash_message','Your tag has been deleted.');
+		return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been deleted.');
 
 	}
 

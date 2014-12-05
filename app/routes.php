@@ -28,7 +28,7 @@ Route::get('/logout', 'UserController@getLogout' );
 
 
 /**
- * Tag
+ * Shoe
  * (Implicit RESTful Routing)
  */
 Route::resource('shoe', 'ShoeController');
