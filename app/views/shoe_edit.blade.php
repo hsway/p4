@@ -16,8 +16,8 @@
 		    {{ Form::label('purchase_date', 'Purchase date') }}
 		    {{ Form::text('purchase_date') }} YYYY-MM-DD<br />
 
-		    {{-- Starting mileage field. --------------------}}
-		    {{ Form::label('mileage', 'Starting mileage') }}
+		    {{-- Total mileage field. -----------------------}}
+		    {{ Form::label('mileage', 'Total mileage') }}
 		    {{ Form::text('mileage') }}
 
 		</div>

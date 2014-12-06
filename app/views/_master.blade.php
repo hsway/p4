@@ -16,6 +16,8 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         @if(Auth::check())
+                            <li><a href='/run'>List runs</a></li>
+                            <li><a href='/run/create'>Add a run</a></li>
                             <li><a href='/shoe'>List shoes</a></li>
                             <li><a href='/shoe/create'>Add shoes</a></li>
                             <li><a href='/logout'>Log out {{ Auth::user()->email; }}</a></li>

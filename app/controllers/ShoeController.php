@@ -1,6 +1,6 @@
 <?php
 
-class ShoeController extends \BaseController {
+class ShoeController extends BaseController {
 
 
 	/**
@@ -23,7 +23,7 @@ class ShoeController extends \BaseController {
 	 */
 	public function index() {
 
-		$shoes = User::find(Auth::user()->id)->shoes;
+		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
 		return View::make('shoe_index')->with('shoes',$shoes);
 
 	}
@@ -78,8 +78,6 @@ class ShoeController extends \BaseController {
 		}
 
 		return Redirect::action('ShoeController@index')->with('flash_message', 'Shoe added');
-		// from demo
-	    // return Redirect::action('ShoeController@index')->with('flash_message','Your shoe been added.');
 
 	}
 

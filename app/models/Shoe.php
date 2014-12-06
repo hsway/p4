@@ -6,6 +6,10 @@ class Shoe extends Eloquent {
         return $this->belongsTo('User');
     }
 
+    public function runs() {
+    	return $this->hasMany('Run');
+    }
+
     # Model events...
 	# http://laravel.com/docs/eloquent#model-events
 	public static function boot() {

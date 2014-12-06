@@ -33,6 +33,12 @@ Route::get('/logout', 'UserController@getLogout' );
  */
 Route::resource('shoe', 'ShoeController');
 
+/**
+ * Run
+ * (Implicit RESTful Routing)
+ */
+Route::resource('run', 'RunController');
+
 Route::get('/debug', function() {
 
     echo '<pre>';

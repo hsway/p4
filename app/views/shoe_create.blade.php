@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Create a Shoe form for Run Simple</h1>
+<h1>Create a Shoe form</h1>
 
 @foreach($errors->all() as $message)
     <div class='error'>{{ $message }}</div>
