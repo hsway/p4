@@ -20,7 +20,7 @@
 
     {{-- Starting mileage field. --------------------}}
     {{ Form::label('mileage', 'Starting mileage') }}
-    {{ Form::text('mileage') }}<br />
+    {{ Form::text('mileage') }} If brand new, enter 0.<br />
 
     {{-- Form submit button. ------------------------}}
     {{ Form::submit('Add shoe') }}

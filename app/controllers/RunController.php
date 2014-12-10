@@ -36,7 +36,7 @@ class RunController extends BaseController {
 	 */
 	public function create() {
 
-		$shoes = User::find(Auth::user()->id)->shoes;
+		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
 		return View::make('run_create')->with('shoes',$shoes);
 	}
 
@@ -50,7 +50,7 @@ class RunController extends BaseController {
 
 		$rules = array(
 			'date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required',
+			'mileage' => 'required|numeric|min:0',
 			'shoe_id' => 'required'
 		);
 
@@ -124,8 +124,13 @@ class RunController extends BaseController {
 			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
+		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
+
 		# Pass with the $run object so we can do model binding on the form
-		return View::make('run_edit')->with('run', $run);
+		# Pass $shoes to populate the shoe selection dropdown
+		return View::make('run_edit')->with(array('run'   => $run,
+												  'shoes' => $shoes
+		));
 
 	}
 
@@ -145,10 +150,42 @@ class RunController extends BaseController {
 			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
-		$run->name = Input::get('name');
+		$oldShoe = Shoe::find($run->shoe_id);
+		$newShoe = Shoe::find(Input::get('shoe_id'));
+
+		$oldMileage = $run->mileage;
+		$newMileage = Input::get('mileage');
+
+		// Shoe associated with this run has not changed
+		if ($oldShoe == $newShoe) {
+
+			// get the difference between the original and updated run mileages
+			$difference = $newMileage - $oldMileage;
+
+			// update the mileage of the associated Shoe
+			// could update $oldShoe instead (they're the same)
+			$newShoe->mileage += $difference;
+			$newShoe->save();
+
+		// Shoe associated with this Run has changed
+		} else {
+
+			$oldShoe->mileage -= $oldMileage;
+			$oldShoe->save();
+
+			$newShoe->mileage += $newMileage;
+			$newShoe->save();
+
+		}
+
+		// save the updated Run
+		$run->date = Input::get('date');
+		$run->mileage = $newMileage;
+		$run->notes = Input::get('notes');
+		$run->shoe_id = Input::get('shoe_id');
 		$run->save();
 
-		return Redirect::action('RunController@index')->with('flash_message','Your run has been saved.');
+		return Redirect::action('RunController@index')->with('flash_message','Your run has been saved and shoe mileage updated.');
 
 	}
 
@@ -168,7 +205,7 @@ class RunController extends BaseController {
 			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
-		# Note there's a `deleting` Model event which makes sure linked run entries are also destroyed
+		# Note there's a `deleting` Model event which makes sure the linked Shoe's mileage is updated
 		# See Run.php for more details
 		Run::destroy($id);
 

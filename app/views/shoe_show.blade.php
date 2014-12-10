@@ -29,4 +29,24 @@
 		&nbsp; Caution! This will also delete any runs associated with these shoes.
 	{{ Form::close() }}
 
+	<br />
+
+	@if ($runs->isEmpty())
+
+		<p>You haven't yet logged any runs in these shoes.</p>
+
+	@else
+
+		<h3>Recent runs in these shoes:</h3>
+
+		<div>
+		@foreach($runs as $run)
+
+			<a href='/run/{{ $run->id }}'>{{ $run->date }}</a><br />
+
+		@endforeach
+		</div>
+
+	@endif
+
 @stop

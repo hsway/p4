@@ -49,7 +49,7 @@ class ShoeController extends BaseController {
 		$rules = array(
 			'name' => 'required',
 			'purchase_date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required'
+			'mileage' => 'required|numeric|min:0'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -97,7 +97,11 @@ class ShoeController extends BaseController {
 			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		return View::make('shoe_show')->with('shoe', $shoe);
+		$runs = $shoe->runs()->take(10)->orderBy('date', 'dsc')->get();
+
+		return View::make('shoe_show')->with(array('shoe' => $shoe,
+												   'runs' => $runs
+		));
 	}
 
 
@@ -138,6 +142,8 @@ class ShoeController extends BaseController {
 		}
 
 		$shoe->name = Input::get('name');
+		$shoe->purchase_date = Input::get('purchase_date');
+		$shoe->mileage = Input::get('mileage');
 		$shoe->save();
 
 		return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been saved.');
