@@ -11,20 +11,18 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('index');
-});
+
 
 /**
  * User
  * (Explicit Routing)
  */
-Route::get('/signup','UserController@getSignup' );
-Route::post('/signup', 'UserController@postSignup' );
-Route::get('/login', 'UserController@getLogin' );
-Route::post('/login', 'UserController@postLogin' );
-Route::get('/logout', 'UserController@getLogout' );
+Route::get('/', 'UserController@getIndex');
+Route::get('/signup', 'UserController@getSignup');
+Route::post('/signup', 'UserController@postSignup');
+Route::get('/login', 'UserController@getLogin');
+Route::post('/login', 'UserController@postLogin');
+Route::get('/logout', 'UserController@getLogout');
 
 
 /**

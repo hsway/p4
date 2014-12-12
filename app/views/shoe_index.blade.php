@@ -2,19 +2,40 @@
 
 @section('content')
 
-	<h2>Shoe index</h2>
+<h2>{{ Auth::user()->first_name }}'s Shoes</h2>
 
+<p><a class="btn btn-primary" href='/shoe/create'>+ Add shoes</a></p>
 
-	<a href='/shoe/create'>+ Add a new shoe</a>
+@if ($shoes->isEmpty())
 
-	<br><br>
+	<p>You haven't <a href="shoe/create">added any shoes</a> yet.</p>
 
-	@foreach($shoes as $shoe)
+@else
 
-		<div>
-			<a href='/shoe/{{ $shoe->id }}'>{{ $shoe->name }}</a>
-		</div>
+	<table>
+		<tr>
+			<th>Shoe Name</th>
+			<th>Total Mileage</th>
+			<th>Purchase Date</th>
+			<th>Actions</th>
+		</tr>
 
-	@endforeach
+		@foreach($shoes as $shoe)
+		
+			<tr>
+				<td><a href='/shoe/{{ $shoe->id }}'>{{ $shoe->name }}</a></td>
+				<td>{{ $shoe->mileage }}</td>
+				<td>{{ $shoe->purchase_date }}</td>
+				<td>
+					<a class="btn btn-success" href='/shoe/{{ $shoe->id }}'>View</a>&nbsp;
+					<a class="btn btn-warning" href='/shoe/{{ $shoe->id }}/edit'>Edit/Delete</a>
+				</td>	
+			</tr>
+
+		@endforeach
+
+	</table>
+
+@endif
 
 @stop

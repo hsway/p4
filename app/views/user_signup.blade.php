@@ -31,7 +31,7 @@
     {{ Form::password('password_confirmation') }}<br />
 
     {{-- Form submit button. --------------------}}
-    {{ Form::submit('Sign up') }}
+    {{ Form::submit('Sign up', array('class' => 'btn btn-primary')) }}
 
 {{ Form::close() }}
 

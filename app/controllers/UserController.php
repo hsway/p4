@@ -16,6 +16,27 @@ class UserController extends BaseController {
 
     }
 
+    public function getIndex() {
+
+    	$user = Auth::user();
+
+    	if ($user) {
+
+    		$runs = $user->runs->sortByDesc('date')->take(5);
+    		$shoes = $user->shoes->sortByDesc('updated_at')->take(2);
+
+    		return View::make('user_index')->with(array( 'runs' => $runs,
+    													 'shoes' => $shoes
+    		));
+
+    		//return true;
+
+    	} else {
+
+    		return View::make('welcome');
+
+    	}
+    }
 
    /**
 	* Show the new user signup form
@@ -86,6 +107,21 @@ class UserController extends BaseController {
 	* @return View
 	*/
 	public function postLogin() {
+
+		$rules = array(
+			'email' => 'required|email',
+			'password' => 'required|min:6'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()) {
+
+			return Redirect::to('/login')
+				->with('flash_message', 'Login failed; please fix the errors listed below.')
+				->withInput()
+				->withErrors($validator);
+		}
 
 		$credentials = Input::only('email', 'password');
 

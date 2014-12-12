@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Create a Shoe form</h1>
+<h1>Add Shoes</h1>
 
 @foreach($errors->all() as $message)
     <div class='error'>{{ $message }}</div>
@@ -23,7 +23,7 @@
     {{ Form::text('mileage') }} If brand new, enter 0.<br />
 
     {{-- Form submit button. ------------------------}}
-    {{ Form::submit('Add shoe') }}
+    {{ Form::submit('Add shoes', array('class' => 'btn btn-primary')) }}
 
 {{ Form::close() }}
 

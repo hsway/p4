@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Login form for Run Simple</h1>
+<h1>Login</h1>
 
 @foreach($errors->all() as $message)
     <div class='error'>{{ $message }}</div>
@@ -19,7 +19,7 @@
     {{ Form::password('password') }}<br />
 
     {{-- Form submit button. --------------------}}
-    {{ Form::submit('Log in') }}
+    {{ Form::submit('Log in', array('class' => 'btn btn-primary')) }}
 
 {{ Form::close() }}
 

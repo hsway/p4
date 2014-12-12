@@ -2,19 +2,40 @@
 
 @section('content')
 
-	<h2>Run index</h2>
+<h2>{{ Auth::user()->first_name }}'s Runs</h2>
 
+<p><a class="btn btn-primary" href='/run/create'>+ Add run</a></p>
 
-	<a href='/run/create'>+ Add a new run</a>
+@if ($runs->isEmpty())
 
-	<br><br>
+	<p>You haven't <a href="run/create">logged any runs</a> yet.</p>
 
-	@foreach($runs as $run)
+@else
 
-		<div>
-			<a href='/run/{{ $run->id }}'>{{ $run->date }}</a>
-		</div>
+	<table>
+		<tr>
+			<th>Run Date</th>
+			<th>Mileage</th>
+			<th>Shoe</th>
+			<th>Actions</th>
+		</tr>
 
-	@endforeach
+		@foreach($runs as $run)
+		
+			<tr>
+				<td><a href='/run/{{ $run->id }}'>{{ $run->date }}</a></td>
+				<td>{{ $run->mileage }}</td>
+				<td><a href="/shoe/{{ Shoe::find($run->shoe_id)->id }}">{{ Shoe::find($run->shoe_id)->name }}</a></td>
+				<td>
+					<a class="btn btn-success" href='/run/{{ $run->id }}'>View</a>&nbsp;
+					<a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>
+				</td>	
+			</tr>
+
+		@endforeach
+
+	</table>
+
+@endif
 
 @stop

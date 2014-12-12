@@ -8,10 +8,13 @@
 </head>
 <body>
     <div class="container">
+
+        
+
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Home</a>
+                    <a href="/" class="navbar-brand">Run Simple</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -31,12 +34,25 @@
         </nav>
 
         @if(Session::get('flash_message'))
-            <div class='flash-message'>{{ Session::get('flash_message') }}</div>
+            <div id="flash-div" class='alert alert-warning'>{{ Session::get('flash_message') }}</div>
         @endif
 
         @yield('content')
 
     </div>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert-warning").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
+</script>
+
+@yield('scripts')
 
 </body>
 </html>

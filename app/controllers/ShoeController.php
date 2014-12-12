@@ -97,7 +97,7 @@ class ShoeController extends BaseController {
 			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		$runs = $shoe->runs()->take(10)->orderBy('date', 'dsc')->get();
+		$runs = $shoe->runs()->take(5)->orderBy('date', 'dsc')->get();
 
 		return View::make('shoe_show')->with(array('shoe' => $shoe,
 												   'runs' => $runs
@@ -133,6 +133,22 @@ class ShoeController extends BaseController {
 	 * @return Response
 	 */
 	public function update($id) {
+
+		$rules = array(
+			'name' => 'required',
+			'purchase_date' => 'required|date_format:"Y-m-d"',
+			'mileage' => 'required|numeric|min:0'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()) {
+
+			return Redirect::to('/shoe/create')
+				->with('flash_message', 'Shoe update failed; please fix the errors listed below.')
+				->withInput()
+				->withErrors($validator);
+		}
 
 		try {
 			$shoe = Shoe::findOrFail($id);

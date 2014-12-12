@@ -25,11 +25,9 @@
 	</div>
 
 	{{---- Edit ----}}
-	<a href='/run/{{ $run->id }}/edit'>Edit</a>
+	
+	<br>
 
-	{{---- Delete -----}}
-	{{ Form::open(['method' => 'DELETE', 'action' => ['RunController@destroy', $run->id]]) }}
-		<a href='javascript:void(0)' onClick='parentNode.submit();return false;'>Delete</a>
-	{{ Form::close() }}
+	<p><a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a></p>
 
 @stop

@@ -26,14 +26,28 @@
 
 		</div>
 
-		{{ Form::submit('Update') }}
+		{{ Form::submit('Update', array('class' => "btn btn-primary")) }}
 
 	{{ Form::close() }}
 
+	<br>
 
 	{{---- DELETE -----}}
-	{{ Form::open(['method' => 'DELETE', 'action' => ['RunController@destroy', $run->id]]) }}
-		<a href='javascript:void(0)' onClick='parentNode.submit();return false;'>Delete</a>
+	{{ Form::open(['method' => 'DELETE', 'action' => ['RunController@destroy', $run->id], 'id' => 'run_delete_form']) }}
+		<a id="run_delete_button" class="btn btn-danger" href='#' data-trigger="focus">Delete Run</a>
 	{{ Form::close() }}
+
+@stop
+
+@section('scripts')
+
+<script type="text/javascript" src="/js/bootstrap-confirmation.js"></script>
+
+<script type="text/javascript">
+	$('#run_delete_button').confirmation({
+		onConfirm: function() { $('#run_delete_form').submit() },
+		onCancel: function() { return false; }
+	});
+</script>
 
 @stop

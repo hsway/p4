@@ -2,33 +2,41 @@
 
 @section('content')
 
-<h1>Create a Run form</h1>
+<h1>Add a Run</h1>
 
-@foreach($errors->all() as $message)
-    <div class='error'>{{ $message }}</div>
-@endforeach
+@if ($shoes->isEmpty())
 
-{{ Form::open(array('action' => 'RunController@store')) }}
+    <p>You haven't added any shoes yet. <a href="/shoe/create">Add a pair first</a>, then come back here to log some runs.</p>
 
-    {{-- Date field. -----------------------}}
-    {{ Form::label('date', 'Date') }}
-    {{ Form::text('date') }} YYYY-MM-DD<br />
+@else
 
-    {{-- Mileage field. --------------------}}
-    {{ Form::label('mileage', 'Mileage') }}
-    {{ Form::text('mileage') }}<br />
+    @foreach($errors->all() as $message)
+        <div class='error'>{{ $message }}</div>
+    @endforeach
 
-    {{-- Notes field. ----------------------}}
-    {{ Form::label('notes', 'Notes') }}
-    {{ Form::textarea('notes') }}<br />
+    {{ Form::open(array('action' => 'RunController@store')) }}
 
-    {{-- Shoe dropdown. --------------------}}
-    {{ Form::label('shoe_id', 'Shoe you ran in') }}
-    {{ Form::select('shoe_id', $shoes->lists('name','id')) }}<br />
+        {{-- Date field. -----------------------}}
+        {{ Form::label('date', 'Date') }}
+        {{ Form::text('date') }} YYYY-MM-DD<br />
 
-    {{-- Form submit button. ---------------}}
-    {{ Form::submit('Add run') }}
+        {{-- Mileage field. --------------------}}
+        {{ Form::label('mileage', 'Mileage') }}
+        {{ Form::text('mileage') }}<br />
 
-{{ Form::close() }}
+        {{-- Notes field. ----------------------}}
+        {{ Form::label('notes', 'Notes') }}
+        {{ Form::textarea('notes') }}<br />
+
+        {{-- Shoe dropdown. --------------------}}
+        {{ Form::label('shoe_id', 'Shoe you ran in') }}
+        {{ Form::select('shoe_id', $shoes->lists('name','id')) }}<br />
+
+        {{-- Form submit button. ---------------}}
+        {{ Form::submit('Add run', array('class' => 'btn btn-primary')) }}
+
+    {{ Form::close() }}
+
+@endif
 
 @stop

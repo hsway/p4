@@ -143,6 +143,22 @@ class RunController extends BaseController {
 	 */
 	public function update($id) {
 
+		$rules = array(
+			'date' => 'required|date_format:"Y-m-d"',
+			'mileage' => 'required|numeric|min:0',
+			'shoe_id' => 'required'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()) {
+
+			return Redirect::to('/run/create')
+				->with('flash_message', 'Run update failed; please fix the errors listed below.')
+				->withInput()
+				->withErrors($validator);
+		}
+
 		try {
 			$run = Run::findOrFail($id);
 		}
