@@ -5,11 +5,10 @@
     <title>Run Simple</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('styles/runsimple.css') }}" />
+    <link rel="stylesheet" href="{{ asset('styles/datepicker.css') }}" />
 </head>
 <body>
     <div class="container">
-
-        
 
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
@@ -43,6 +42,7 @@
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="{{ asset('/js/bootstrap-datepicker.js') }}"></script>
 
 <script type="text/javascript">
     window.setTimeout(function() {
@@ -50,6 +50,14 @@
             $(this).remove(); 
         });
     }, 4000);
+</script>
+
+<script>
+    $('#date').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayHighlight: true
+    });
 </script>
 
 @yield('scripts')

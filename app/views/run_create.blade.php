@@ -18,7 +18,7 @@
 
         {{-- Date field. -----------------------}}
         {{ Form::label('date', 'Date') }}
-        {{ Form::text('date') }} YYYY-MM-DD<br />
+        {{ Form::text('date', '', array('id' => 'date')) }} YYYY-MM-DD<br />
 
         {{-- Mileage field. --------------------}}
         {{ Form::label('mileage', 'Mileage') }}

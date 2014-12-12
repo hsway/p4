@@ -6,11 +6,15 @@
 
 		<h2>Update: Run on {{ $run->date }}</h2>
 
+		@foreach($errors->all() as $message)
+	        <div class='error'>{{ $message }}</div>
+	    @endforeach
+
 		<div class='form-group'>
 
 			    {{-- Date field. -----------------------}}
 			    {{ Form::label('date', 'Date') }}
-			    {{ Form::text('date') }} YYYY-MM-DD<br />
+			    {{ Form::text('date', '', array('id' => 'date')) }} YYYY-MM-DD<br />
 
 			    {{-- Mileage field. --------------------}}
 			    {{ Form::label('mileage', 'Mileage') }}

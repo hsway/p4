@@ -134,6 +134,13 @@ class ShoeController extends BaseController {
 	 */
 	public function update($id) {
 
+		try {
+			$shoe = Shoe::findOrFail($id);
+		}
+		catch(Exception $e) {
+			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
+		}
+
 		$rules = array(
 			'name' => 'required',
 			'purchase_date' => 'required|date_format:"Y-m-d"',
@@ -144,17 +151,10 @@ class ShoeController extends BaseController {
 
 		if($validator->fails()) {
 
-			return Redirect::to('/shoe/create')
+			return Redirect::to('/shoe/' . $shoe->id . '/edit')
 				->with('flash_message', 'Shoe update failed; please fix the errors listed below.')
 				->withInput()
 				->withErrors($validator);
-		}
-
-		try {
-			$shoe = Shoe::findOrFail($id);
-		}
-		catch(Exception $e) {
-			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
 		$shoe->name = Input::get('name');

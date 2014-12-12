@@ -6,6 +6,10 @@
 
 		<h2>Update: {{ $shoe->name }}</h2>
 
+		@foreach($errors->all() as $message)
+	        <div class='error'>{{ $message }}</div>
+	    @endforeach
+
 		<div class='form-group'>
 
 			{{-- Shoe name field. ---------------------------}}
@@ -14,7 +18,7 @@
 
 		    {{-- Purchase date field. -----------------------}}
 		    {{ Form::label('purchase_date', 'Purchase date') }}
-		    {{ Form::text('purchase_date') }} YYYY-MM-DD<br />
+		    {{ Form::text('purchase_date', '', array('id' => 'date')) }} YYYY-MM-DD<br />
 
 		    {{-- Total mileage field. -----------------------}}
 		    {{ Form::label('mileage', 'Total mileage') }}

@@ -143,6 +143,13 @@ class RunController extends BaseController {
 	 */
 	public function update($id) {
 
+		try {
+			$run = Run::findOrFail($id);
+		}
+		catch(Exception $e) {
+			return Redirect::to('/run')->with('flash_message', 'Run not found');
+		}
+
 		$rules = array(
 			'date' => 'required|date_format:"Y-m-d"',
 			'mileage' => 'required|numeric|min:0',
@@ -153,17 +160,10 @@ class RunController extends BaseController {
 
 		if($validator->fails()) {
 
-			return Redirect::to('/run/create')
+			return Redirect::to('/run/' . $run->id . '/edit')
 				->with('flash_message', 'Run update failed; please fix the errors listed below.')
 				->withInput()
 				->withErrors($validator);
-		}
-
-		try {
-			$run = Run::findOrFail($id);
-		}
-		catch(Exception $e) {
-			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
 		$oldShoe = Shoe::find($run->shoe_id);
