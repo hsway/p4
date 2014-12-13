@@ -1,6 +1,12 @@
 <?php
 
-class Run extends Eloquent {
+class Run extends Elegant {
+
+    protected $rules = array(
+            'date' => 'required|date_format:"Y-m-d"',
+            'mileage' => 'required|numeric|min:0',
+            'shoe_id' => 'required'
+    );
 
 	public function user() {
         return $this->belongsTo('User');

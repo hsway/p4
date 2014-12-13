@@ -14,7 +14,7 @@
 
 			    {{-- Date field. -----------------------}}
 			    {{ Form::label('date', 'Date') }}
-			    {{ Form::text('date', '', array('id' => 'date')) }} YYYY-MM-DD<br />
+			    <input id="date" name="date" type="text" value="{{ $run->date }}"> YYYY-MM-DD<br />
 
 			    {{-- Mileage field. --------------------}}
 			    {{ Form::label('mileage', 'Mileage') }}

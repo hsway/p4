@@ -1,6 +1,12 @@
 <?php
 
-class Shoe extends Eloquent {
+class Shoe extends Elegant {
+
+    protected $rules = array(
+            'name' => 'required',
+            'purchase_date' => 'required|date_format:"Y-m-d"',
+            'mileage' => 'required|numeric|min:0'
+    );
 
 	public function user() {
         return $this->belongsTo('User');

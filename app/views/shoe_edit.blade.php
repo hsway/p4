@@ -18,7 +18,7 @@
 
 		    {{-- Purchase date field. -----------------------}}
 		    {{ Form::label('purchase_date', 'Purchase date') }}
-		    {{ Form::text('purchase_date', '', array('id' => 'date')) }} YYYY-MM-DD<br />
+		    <input id="date" name="purchase_date" type="text" value="{{ $shoe->purchase_date }}"> YYYY-MM-DD<br />
 
 		    {{-- Total mileage field. -----------------------}}
 		    {{ Form::label('mileage', 'Total mileage') }}

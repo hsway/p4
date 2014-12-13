@@ -48,47 +48,47 @@ class RunController extends BaseController {
 	 */
 	public function store() {
 
-		$rules = array(
-			'date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required|numeric|min:0',
-			'shoe_id' => 'required'
-		);
+		// get the POST data
+		$data = Input::all();
 
-		$validator = Validator::make(Input::all(), $rules);
-
-		if($validator->fails()) {
-
-			return Redirect::to('/run/create')
-				->with('flash_message', 'Run creation failed; please fix the errors listed below.')
-				->withInput()
-				->withErrors($validator);
-		}
-
+		// create a new model instance
 		$run = new Run;
-		$run->date = Input::get('date');
-		$run->mileage = Input::get('mileage');
-		$run->notes = Input::get('notes');
-		$run->shoe_id = Input::get('shoe_id');
-		$run->user_id = Auth::user()->id;
 
-		try {
-			$run->save();
-		}
-		catch (Exception $e) {
-			return Redirect::to('/run/create')
-				->with('flash_message', 'Run creation failed; please try again.')
+		// attempt validation
+		if ($run->validate($data)) {
+		    // success code
+		    $run->date = Input::get('date');
+			$run->mileage = Input::get('mileage');
+			$run->notes = Input::get('notes');
+			$run->shoe_id = Input::get('shoe_id');
+			$run->user_id = Auth::user()->id;
+
+			try {
+				$run->save();
+			}
+			catch (Exception $e) {
+				return Redirect::to('/run/create')
+					->with('flash_message', 'Run creation failed; please try again.')
+					->withInput();
+			}
+
+			// update the mileage of the associated Shoe
+	        $shoe = Shoe::find($run->shoe_id);
+			$shoe->mileage += $run->mileage;
+			$shoe->save();
+
+			return Redirect::action('RunController@index')->with('flash_message', 'Run added');
+
+		} else {
+		    // failure, get errors
+		    $errors = $run->errors();
+
+		    return Redirect::to('/run/create')
+				->with(array('flash_message' => 'Run creation failed; please fix the errors listed below.',
+							 'errors'        => $errors))
 				->withInput();
-		}
-
-		// update the mileage of the associated Shoe
-        $shoe = Shoe::find($run->shoe_id);
-		$shoe->mileage += $run->mileage;
-		$shoe->save();
-
-		return Redirect::action('RunController@index')->with('flash_message', 'Run added');
-
+		}	
 	}
-
 
 	/**
 	 * Display the specified resource.
@@ -143,6 +143,10 @@ class RunController extends BaseController {
 	 */
 	public function update($id) {
 
+		// get the POST data
+		$data = Input::all();
+
+		// find the model instance to update
 		try {
 			$run = Run::findOrFail($id);
 		}
@@ -150,59 +154,55 @@ class RunController extends BaseController {
 			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
-		$rules = array(
-			'date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required|numeric|min:0',
-			'shoe_id' => 'required'
-		);
+		// attempt validation
+		if ($run->validate($data)) {
+		    // success code
+		    $oldShoe = Shoe::find($run->shoe_id);
+			$newShoe = Shoe::find(Input::get('shoe_id'));
 
-		$validator = Validator::make(Input::all(), $rules);
+			$oldMileage = $run->mileage;
+			$newMileage = Input::get('mileage');
 
-		if($validator->fails()) {
+			// Shoe associated with this run has not changed
+			if ($oldShoe == $newShoe) {
 
-			return Redirect::to('/run/' . $run->id . '/edit')
-				->with('flash_message', 'Run update failed; please fix the errors listed below.')
-				->withInput()
-				->withErrors($validator);
-		}
+				// get the difference between the original and updated run mileages
+				$difference = $newMileage - $oldMileage;
 
-		$oldShoe = Shoe::find($run->shoe_id);
-		$newShoe = Shoe::find(Input::get('shoe_id'));
+				// update the mileage of the associated Shoe
+				// could update $oldShoe instead (they're the same)
+				$newShoe->mileage += $difference;
+				$newShoe->save();
 
-		$oldMileage = $run->mileage;
-		$newMileage = Input::get('mileage');
+			// Shoe associated with this Run has changed
+			} else {
 
-		// Shoe associated with this run has not changed
-		if ($oldShoe == $newShoe) {
+				$oldShoe->mileage -= $oldMileage;
+				$oldShoe->save();
 
-			// get the difference between the original and updated run mileages
-			$difference = $newMileage - $oldMileage;
+				$newShoe->mileage += $newMileage;
+				$newShoe->save();
 
-			// update the mileage of the associated Shoe
-			// could update $oldShoe instead (they're the same)
-			$newShoe->mileage += $difference;
-			$newShoe->save();
+			}
 
-		// Shoe associated with this Run has changed
+			// save the updated Run
+			$run->date = Input::get('date');
+			$run->mileage = $newMileage;
+			$run->notes = Input::get('notes');
+			$run->shoe_id = Input::get('shoe_id');
+			$run->save();
+
+			return Redirect::action('RunController@index')->with('flash_message','Your run has been saved and shoe mileage updated.');
+			
 		} else {
+		    // failure, get errors
+    		$errors = $run->errors();
 
-			$oldShoe->mileage -= $oldMileage;
-			$oldShoe->save();
-
-			$newShoe->mileage += $newMileage;
-			$newShoe->save();
-
+		    return Redirect::to('/run/' . $run->id . '/edit')
+				->with(array('flash_message' => 'Run update failed; please fix the errors listed below.',
+					         'errors'        => $errors))
+				->withInput();
 		}
-
-		// save the updated Run
-		$run->date = Input::get('date');
-		$run->mileage = $newMileage;
-		$run->notes = Input::get('notes');
-		$run->shoe_id = Input::get('shoe_id');
-		$run->save();
-
-		return Redirect::action('RunController@index')->with('flash_message','Your run has been saved and shoe mileage updated.');
-
 	}
 
 
@@ -228,6 +228,4 @@ class RunController extends BaseController {
 		return Redirect::action('RunController@index')->with('flash_message','Your run has been deleted.');
 
 	}
-
-
 }

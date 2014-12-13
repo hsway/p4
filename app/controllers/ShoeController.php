@@ -46,39 +46,40 @@ class ShoeController extends BaseController {
 	 */
 	public function store() {
 
-		$rules = array(
-			'name' => 'required',
-			'purchase_date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required|numeric|min:0'
-		);
+		// get the POST data
+		$data = Input::all();
 
-		$validator = Validator::make(Input::all(), $rules);
-
-		if($validator->fails()) {
-
-			return Redirect::to('/shoe/create')
-				->with('flash_message', 'Shoe creation failed; please fix the errors listed below.')
-				->withInput()
-				->withErrors($validator);
-		}
-
+		// create a new model instance
 		$shoe = new Shoe;
-		$shoe->name = Input::get('name');
-		$shoe->purchase_date = Input::get('purchase_date');
-		$shoe->mileage = Input::get('mileage');
-		$shoe->user_id = Auth::user()->id;
 
-		try {
-			$shoe->save();
-		}
-		catch (Exception $e) {
-			return Redirect::to('/shoe/create')
-				->with('flash_message', 'Shoe creation failed; please try again.')
+		// attempt validation
+		if ($shoe->validate($data)) {
+		    // success code
+		    $shoe->name = Input::get('name');
+			$shoe->purchase_date = Input::get('purchase_date');
+			$shoe->mileage = Input::get('mileage');
+			$shoe->user_id = Auth::user()->id;
+
+			try {
+				$shoe->save();
+			}
+			catch (Exception $e) {
+				return Redirect::to('/shoe/create')
+					->with('flash_message', 'Shoe creation failed; please try again.')
+					->withInput();
+			}
+
+			return Redirect::action('ShoeController@index')->with('flash_message', 'Shoe added');
+
+		} else {
+		    // failure, get errors
+		    $errors = $shoe->errors();
+
+		    return Redirect::to('/shoe/create')
+				->with(array('flash_message' => 'Shoe creation failed; please fix the errors listed below.',
+							 'errors' => $errors))
 				->withInput();
 		}
-
-		return Redirect::action('ShoeController@index')->with('flash_message', 'Shoe added');
-
 	}
 
 
@@ -134,6 +135,10 @@ class ShoeController extends BaseController {
 	 */
 	public function update($id) {
 
+		// get the POST data
+		$data = Input::all();
+
+		// find model instance to be updated
 		try {
 			$shoe = Shoe::findOrFail($id);
 		}
@@ -141,31 +146,26 @@ class ShoeController extends BaseController {
 			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
 		}
 
-		$rules = array(
-			'name' => 'required',
-			'purchase_date' => 'required|date_format:"Y-m-d"',
-			'mileage' => 'required|numeric|min:0'
-		);
+		// attempt validation
+		if ($shoe->validate($data)) {
+		    // success code
+		    $shoe->name = Input::get('name');
+			$shoe->purchase_date = Input::get('purchase_date');
+			$shoe->mileage = Input::get('mileage');
+			$shoe->save();
 
-		$validator = Validator::make(Input::all(), $rules);
+			return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been saved.');
 
-		if($validator->fails()) {
+		} else {
+		    // failure, get errors
+		    $errors = $shoe->errors();
 
-			return Redirect::to('/shoe/' . $shoe->id . '/edit')
-				->with('flash_message', 'Shoe update failed; please fix the errors listed below.')
-				->withInput()
-				->withErrors($validator);
+		    return Redirect::to('/shoe/' . $shoe->id . '/edit')
+				->with(array('flash_message' => 'Shoe update failed; please fix the errors listed below.',
+							 'errors'        => $errors))
+				->withInput();
 		}
-
-		$shoe->name = Input::get('name');
-		$shoe->purchase_date = Input::get('purchase_date');
-		$shoe->mileage = Input::get('mileage');
-		$shoe->save();
-
-		return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been saved.');
-
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.
