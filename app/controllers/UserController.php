@@ -23,13 +23,12 @@ class UserController extends BaseController {
     	if ($user) {
 
     		$runs = $user->runs->sortByDesc('date')->take(5);
+    		$runs->load('shoe');
     		$shoes = $user->shoes->sortByDesc('updated_at')->take(2);
 
-    		return View::make('user_index')->with(array( 'runs' => $runs,
+    		return View::make('user_index')->with(array( 'runs'  => $runs,
     													 'shoes' => $shoes
     		));
-
-    		//return true;
 
     	} else {
 
@@ -87,8 +86,10 @@ class UserController extends BaseController {
 		}
 
 		Auth::login($user);
+		Session::put("user_id", Auth::id());
+		Session::put("user_first_name", Auth::user()->first_name);
 
-		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple!');
+		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple, ' . Session::get('user_first_name') . '!');
 
 	}
 
@@ -126,7 +127,11 @@ class UserController extends BaseController {
 		$credentials = Input::only('email', 'password');
 
 		if (Auth::attempt($credentials, $remember = false)) {
-			return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Auth::user()->first_name . '!');
+
+			Session::put("user_id", Auth::id());
+			Session::put("user_first_name", Auth::user()->first_name);
+			return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+
 		}
 		else {
 			return Redirect::to('/login')

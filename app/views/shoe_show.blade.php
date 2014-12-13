@@ -48,7 +48,7 @@
 			<tr>
 				<td><a href='/run/{{ $run->id }}'>{{ $run->date }}</a></td>
 				<td>{{ $run->mileage }}</td>
-				<td><a href="/shoe/{{ Shoe::find($run->shoe_id)->id }}">{{ Shoe::find($run->shoe_id)->name }}</a></td>
+				<td><a href="/shoe/{{ $shoe->id }}">{{ $shoe->name }}</a></td>
 				<td>
 					<a class="btn btn-success" href='/run/{{ $run->id }}'>View</a>&nbsp;
 					<a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>

@@ -26,14 +26,15 @@
 
 		</div>
 
-		{{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
+		{{ Form::submit('Update', array('class' => 'btn btn-primary', 'id' => 'shoe_update_button')) }}
 
 	{{ Form::close() }}
 
 	<br>
 
 	{{---- DELETE -----}}
-	{{ Form::open(['method' => 'DELETE', 'action' => ['ShoeController@destroy', $shoe->id], 'id' => 'shoe_delete_form']) }}
+	{{ Form::open(['action' => ['ShoeController@destroy', $shoe->id], 'id' => 'shoe_delete_form']) }}
+		<input type="hidden" value="DELETE" name="_method" id="shoe_delete_method">
 		<a id="shoe_delete_button" class="btn btn-danger" href='#' data-trigger='focus'
 		title='Are you sure? This will also delete all runs on these shoes.'>Delete Shoe</a>
 	{{ Form::close() }}
@@ -48,6 +49,10 @@
 	$('#shoe_delete_button').confirmation({
 		onConfirm: function() { $('#shoe_delete_form').submit() },
 		onCancel: function() { return false; }
+	});
+
+	$('#shoe_update_button').click(function() {
+		'#shoe_delete_method'.val('DELETE');
 	});
 </script>
 

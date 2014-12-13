@@ -30,14 +30,15 @@
 
 		</div>
 
-		{{ Form::submit('Update', array('class' => "btn btn-primary")) }}
+		{{ Form::submit('Update', array('class' => "btn btn-primary", 'id' => 'run_update_button')) }}
 
 	{{ Form::close() }}
 
 	<br>
 
 	{{---- DELETE -----}}
-	{{ Form::open(['method' => 'DELETE', 'action' => ['RunController@destroy', $run->id], 'id' => 'run_delete_form']) }}
+	{{ Form::open(['action' => ['RunController@destroy', $run->id], 'id' => 'run_delete_form']) }}
+		<input type="hidden" value="DELETE" name="_method" id="run_delete_method">
 		<a id="run_delete_button" class="btn btn-danger" href='#' data-trigger="focus">Delete Run</a>
 	{{ Form::close() }}
 
@@ -51,6 +52,10 @@
 	$('#run_delete_button').confirmation({
 		onConfirm: function() { $('#run_delete_form').submit() },
 		onCancel: function() { return false; }
+	});
+
+	$('#run_update_button').click(function() {
+		'#run_delete_method'.val('DELETE');
 	});
 </script>
 

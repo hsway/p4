@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2>{{ Auth::user()->first_name }}'s Activity</h2>
+<h2>{{ Session::get('user_first_name') }}'s Activity</h2>
 
 @if ($runs->isEmpty())
 
@@ -25,7 +25,7 @@
 			<tr>
 				<td><a href='/run/{{ $run->id }}'>{{ $run->date }}</a></td>
 				<td>{{ $run->mileage }}</td>
-				<td><a href="/shoe/{{ Shoe::find($run->shoe_id)->id }}">{{ Shoe::find($run->shoe_id)->name }}</a></td>
+				<td><a href="/shoe/{{ $run->shoe->id }}">{{ $run->shoe->name }}</a></td>
 				<td>
 					<a class="btn btn-success" href='/run/{{ $run->id }}'>View</a>&nbsp;
 					<a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>

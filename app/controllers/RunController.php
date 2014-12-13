@@ -3,7 +3,7 @@
 class RunController extends BaseController {
 
 
-	/**
+   /**
 	*
 	*/
 	public function __construct() {
@@ -23,7 +23,10 @@ class RunController extends BaseController {
 	 */
 	public function index() {
 
-		$runs = User::find(Auth::user()->id)->runs->sortByDesc('date');
+		$user = Auth::user();
+
+		$runs = $user->runs->sortByDesc('date');
+		$runs->load('shoe');
 		return View::make('run_index')->with('runs',$runs);
 
 	}
@@ -36,7 +39,9 @@ class RunController extends BaseController {
 	 */
 	public function create() {
 
-		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
+		$user = Auth::user();
+
+		$shoes = $user->shoes->sortByDesc('updated_at');
 		return View::make('run_create')->with('shoes',$shoes);
 	}
 
@@ -124,7 +129,8 @@ class RunController extends BaseController {
 			return Redirect::to('/run')->with('flash_message', 'Run not found');
 		}
 
-		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
+		$user = Auth::user();
+		$shoes = $user->shoes->sortByDesc('updated_at');
 
 		# Pass with the $run object so we can do model binding on the form
 		# Pass $shoes to populate the shoe selection dropdown
@@ -193,7 +199,7 @@ class RunController extends BaseController {
 			$run->save();
 
 			return Redirect::action('RunController@index')->with('flash_message','Your run has been saved and shoe mileage updated.');
-			
+
 		} else {
 		    // failure, get errors
     		$errors = $run->errors();

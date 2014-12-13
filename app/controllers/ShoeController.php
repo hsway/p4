@@ -23,7 +23,9 @@ class ShoeController extends BaseController {
 	 */
 	public function index() {
 
-		$shoes = User::find(Auth::user()->id)->shoes->sortByDesc('updated_at');
+		$user = Auth::user();
+
+		$shoes = $user->shoes->sortByDesc('updated_at');
 		return View::make('shoe_index')->with('shoes',$shoes);
 
 	}

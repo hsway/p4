@@ -22,7 +22,7 @@
                             <li><a href='/run/create'>Add a run</a></li>
                             <li><a href='/shoe'>List shoes</a></li>
                             <li><a href='/shoe/create'>Add shoes</a></li>
-                            <li><a href='/logout'>Log out {{ Auth::user()->email; }}</a></li>
+                            <li><a href='/logout'>Log out</a></li>
                         @else
                             <li><a href='/signup'>Sign up</a></li>
                             <li><a href='/login'>Log in</a></li>
