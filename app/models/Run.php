@@ -3,7 +3,7 @@
 class Run extends Elegant {
 
     protected $rules = array(
-            'date' => 'required|date_format:"Y-m-d"',
+            'date' => 'required|date_format:"Y-m-d"|before:+1 day',
             'mileage' => 'required|numeric|min:0',
             'shoe_id' => 'required'
     );

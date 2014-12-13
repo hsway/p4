@@ -4,7 +4,7 @@ class Shoe extends Elegant {
 
     protected $rules = array(
             'name' => 'required',
-            'purchase_date' => 'required|date_format:"Y-m-d"',
+            'purchase_date' => 'required|date_format:"Y-m-d"|before:+1 day',
             'mileage' => 'required|numeric|min:0'
     );
 

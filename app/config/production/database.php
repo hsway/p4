@@ -8,8 +8,8 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'runsimple',
-			'username'  => 'root',
-			'password'  => 'QyH3hNzIdl',
+			'username'  => $_ENV['DATABASE_USER'],
+			'password'  => $_ENV['DATABASE_PASSWORD'],
 		),
 
 	),
