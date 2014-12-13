@@ -37,7 +37,9 @@ Route::resource('shoe', 'ShoeController');
  */
 Route::resource('run', 'RunController');
 
-Route::get('/debug', function() {
+
+
+/* Route::get('/debug', function() {
 
     echo '<pre>';
 
@@ -80,4 +82,4 @@ Route::get('/debug', function() {
 
     echo '</pre>';
 
-});
+}); */
