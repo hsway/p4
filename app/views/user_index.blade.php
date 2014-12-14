@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2>{{ Session::get('user_first_name') }}'s Activity</h2>
+<h2>{{ Auth::user()->first_name }}'s Activity</h2>
 
 @if ($runs->isEmpty())
 

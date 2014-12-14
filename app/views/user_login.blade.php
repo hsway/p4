@@ -18,6 +18,10 @@
     {{ Form::label('password', 'Password') }}
     {{ Form::password('password') }}<br />
 
+    {{-- Remember me? ---------------------------}}
+    {{ Form::label('remember', 'Remember me?') }}
+    {{ Form::checkbox('remember') }}<br />
+
     {{-- Form submit button. --------------------}}
     {{ Form::submit('Log in', array('class' => 'btn btn-primary')) }}
 

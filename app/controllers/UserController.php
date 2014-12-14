@@ -126,17 +126,38 @@ class UserController extends BaseController {
 
 		$credentials = Input::only('email', 'password');
 
-		if (Auth::attempt($credentials, $remember = false)) {
+		// user checked 'remember me'
+		if (Input::get('remember')) {
 
-			Session::put("user_id", Auth::id());
-			Session::put("user_first_name", Auth::user()->first_name);
-			return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+			if (Auth::attempt($credentials, $remember = true)) {
 
-		}
-		else {
-			return Redirect::to('/login')
-				->with('flash_message', 'Log in failed; please try again.')
-				->withInput();
+				Session::put("user_id", Auth::id());
+				Session::put("user_first_name", Auth::user()->first_name);
+				return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+
+			}
+			else {
+				return Redirect::to('/login')
+					->with('flash_message', 'Log in failed; please try again.')
+					->withInput();
+			}
+
+		// user did not check 'remember me'
+		} else {
+
+			if (Auth::attempt($credentials, $remember = false)) {
+
+				Session::put("user_id", Auth::id());
+				Session::put("user_first_name", Auth::user()->first_name);
+				return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+
+			}
+			else {
+				return Redirect::to('/login')
+					->with('flash_message', 'Log in failed; please try again.')
+					->withInput();
+			}
+
 		}
 
 		return Redirect::to('login');
