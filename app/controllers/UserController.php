@@ -88,6 +88,7 @@ class UserController extends BaseController {
 		Auth::login($user);
 		Session::put("user_id", Auth::id());
 		Session::put("user_first_name", Auth::user()->first_name);
+		$user->sendWelcomeEmail();
 
 		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple, ' . Session::get('user_first_name') . '!');
 

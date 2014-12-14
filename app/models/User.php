@@ -31,4 +31,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return $this->hasMany('Run');
     }
 
+    public function sendWelcomeEmail() {
+
+	    # Create an array of data, which will be passed/available in the view
+	    $data = array('user' => $this);
+
+	    Mail::send('emails.welcome', $data, function($message) {
+
+	        $recipient_email = $this->email;
+	        $recipient_name  = $this->first_name.' '.$this->last_name;
+	        $subject  = 'Welcome '.$this->first_name.'!';
+
+	        $message->to($recipient_email, $recipient_name)->subject($subject);
+
+	    });
+
+	}
+
 }

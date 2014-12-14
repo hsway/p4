@@ -1,0 +1,11 @@
+<h1>
+    Welcome {{{ $user['first_name'] }}}!
+</h1>
+
+<p>
+    This message is to confirm that you have created a Run Simple account with the email {{{ $user['email'] }}}.
+</p>
+
+<p>
+    - Team Run Simple
+</p>
