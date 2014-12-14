@@ -7,5 +7,9 @@
 </p>
 
 <p>
+	Please click this link to verify your email address: {{ URL::to('signup/verify/' . $user['confirmation_code']) }}
+</p>
+
+<p>
     - Team Run Simple
 </p>

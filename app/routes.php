@@ -17,13 +17,19 @@
  * User
  * (Explicit Routing)
  */
+
 Route::get('/', 'UserController@getIndex');
+
 Route::get('/signup', 'UserController@getSignup');
 Route::post('/signup', 'UserController@postSignup');
+Route::get('/signup/verify/{confirmationCode}', [
+    'as' => 'confirmation_path',
+    'uses' => 'UserController@confirm'
+]);
+
 Route::get('/login', 'UserController@getLogin');
 Route::post('/login', 'UserController@postLogin');
 Route::get('/logout', 'UserController@getLogout');
-
 
 /**
  * Shoe

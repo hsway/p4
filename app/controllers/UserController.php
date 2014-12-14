@@ -76,6 +76,10 @@ class UserController extends BaseController {
 		$user->last_name  = Input::get('last_name');
 		$user->password   = Hash::make(Input::get('password'));
 
+		// set code for email confirmation
+		$confirmation_code = str_random(30);
+		$user->confirmation_code = $confirmation_code;
+
 		try {
 			$user->save();
 		}
@@ -88,7 +92,7 @@ class UserController extends BaseController {
 		Auth::login($user);
 		Session::put("user_id", Auth::id());
 		Session::put("user_first_name", Auth::user()->first_name);
-		$user->sendWelcomeEmail();
+		$user->sendEmailVerification();
 
 		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple, ' . Session::get('user_first_name') . '!');
 
@@ -125,7 +129,11 @@ class UserController extends BaseController {
 				->withErrors($validator);
 		}
 
-		$credentials = Input::only('email', 'password');
+		$credentials = [
+            'email' => Input::get('email'),
+            'password' => Input::get('password'),
+            'confirmed' => 1
+        ];
 
 		// user checked 'remember me'
 		if (Input::get('remember')) {
@@ -176,5 +184,27 @@ class UserController extends BaseController {
 		return Redirect::to('/');
 
 	}
+
+	public function confirm($confirmation_code) {
+
+        if( ! $confirmation_code)
+        {
+            throw new InvalidConfirmationCodeException;
+        }
+
+        $user = User::whereConfirmationCode($confirmation_code)->first();
+
+        if ( ! $user)
+        {
+            throw new InvalidConfirmationCodeException;
+        }
+
+        $user->confirmed = 1;
+        $user->confirmation_code = null;
+        $user->save();
+
+        return Redirect::to('/')
+        	->with('flash_message', 'Thank you for confirming your email address, ' . $user->first_name . '!');
+    }
 
 }
