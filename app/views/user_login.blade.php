@@ -27,4 +27,6 @@
 
 {{ Form::close() }}
 
+<p><a href="/password/remind">Need to reset your password?</p>
+
 @stop

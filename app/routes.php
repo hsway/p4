@@ -32,6 +32,17 @@ Route::post('/login', 'UserController@postLogin');
 Route::get('/logout', 'UserController@getLogout');
 
 /**
+ * Password reminders
+ * (Explicit routing)
+ */
+
+Route::get('/password/remind', 'RemindersController@getRemind');
+Route::post('/password/remind', 'RemindersController@postRemind');
+
+Route::get('/password/reset/{token}', 'RemindersController@getReset');
+Route::post('/password/reset', 'RemindersController@postReset');
+
+/**
  * Shoe
  * (Implicit RESTful Routing)
  */
