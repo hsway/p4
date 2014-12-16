@@ -1,8 +1,12 @@
-div #flash-div {
-	width:80%;
+body {
+	margin-top: 70px
+}
+
+div #warning-div, div #success-div {
+	width:80% !important;
     margin-left: auto;
     margin-right: auto;
-}
+} 
 
 .error {
 	color:red;

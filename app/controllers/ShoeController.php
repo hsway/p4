@@ -67,18 +67,18 @@ class ShoeController extends BaseController {
 			}
 			catch (Exception $e) {
 				return Redirect::to('/shoe/create')
-					->with('flash_message', 'Shoe creation failed; please try again.')
+					->with('warning_message', 'Shoe creation failed; please try again.')
 					->withInput();
 			}
 
-			return Redirect::action('ShoeController@index')->with('flash_message', 'Shoe added');
+			return Redirect::action('ShoeController@index')->with('success_message', 'Shoe added');
 
 		} else {
 		    // failure, get errors
 		    $errors = $shoe->errors();
 
 		    return Redirect::to('/shoe/create')
-				->with(array('flash_message' => 'Shoe creation failed; please fix the errors listed below.',
+				->with(array('warning_message' => 'Shoe creation failed; please fix the errors listed below.',
 							 'errors' => $errors))
 				->withInput();
 		}
@@ -97,7 +97,7 @@ class ShoeController extends BaseController {
 			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
+			return Redirect::to('/shoe')->with('warning_message', 'Shoe not found');
 		}
 
 		$runs = $shoe->runs()->take(5)->orderBy('date', 'dsc')->get();
@@ -120,7 +120,7 @@ class ShoeController extends BaseController {
 			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
+			return Redirect::to('/shoe')->with('warning_message', 'Shoe not found');
 		}
 
 		# Pass with the $shoe object so we can do model binding on the form
@@ -145,7 +145,7 @@ class ShoeController extends BaseController {
 			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
+			return Redirect::to('/shoe')->with('warning_message', 'Shoe not found');
 		}
 
 		// attempt validation
@@ -156,14 +156,14 @@ class ShoeController extends BaseController {
 			$shoe->mileage = Input::get('mileage');
 			$shoe->save();
 
-			return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been saved.');
+			return Redirect::action('ShoeController@index')->with('success_message','Your shoe has been saved.');
 
 		} else {
 		    // failure, get errors
 		    $errors = $shoe->errors();
 
 		    return Redirect::to('/shoe/' . $shoe->id . '/edit')
-				->with(array('flash_message' => 'Shoe update failed; please fix the errors listed below.',
+				->with(array('warning_message' => 'Shoe update failed; please fix the errors listed below.',
 							 'errors'        => $errors))
 				->withInput();
 		}
@@ -181,14 +181,14 @@ class ShoeController extends BaseController {
 			$shoe = Shoe::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/shoe')->with('flash_message', 'Shoe not found');
+			return Redirect::to('/shoe')->with('warning_message', 'Shoe not found');
 		}
 
 		# Note there's a `deleting` Model event which makes sure linked run entries are also destroyed
 		# See Shoe.php for more details
 		Shoe::destroy($id);
 
-		return Redirect::action('ShoeController@index')->with('flash_message','Your shoe has been deleted.');
+		return Redirect::action('ShoeController@index')->with('success_message','Your shoe has been deleted.');
 
 	}
 

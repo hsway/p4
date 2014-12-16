@@ -65,7 +65,7 @@ class UserController extends BaseController {
 		if($validator->fails()) {
 
 			return Redirect::to('/signup')
-				->with('flash_message', 'Sign up failed; please fix the errors listed below.')
+				->with('warning_message', 'Sign up failed; please fix the errors listed below.')
 				->withInput()
 				->withErrors($validator);
 		}
@@ -85,7 +85,7 @@ class UserController extends BaseController {
 		}
 		catch (Exception $e) {
 			return Redirect::to('/signup')
-				->with('flash_message', 'Sign up failed; please try again.')
+				->with('warning_message', 'Sign up failed; please try again.')
 				->withInput();
 		}
 
@@ -94,7 +94,7 @@ class UserController extends BaseController {
 		Session::put("user_first_name", Auth::user()->first_name);
 		$user->sendEmailVerification();
 
-		return Redirect::to('/')->with('flash_message', 'Welcome to Run Simple, ' . Session::get('user_first_name') . '!');
+		return Redirect::to('/')->with('success_message', 'Welcome to Run Simple, ' . Session::get('user_first_name') . '!');
 
 	}
 
@@ -124,7 +124,7 @@ class UserController extends BaseController {
 		if($validator->fails()) {
 
 			return Redirect::to('/login')
-				->with('flash_message', 'Login failed; please fix the errors listed below.')
+				->with('warning_message', 'Login failed; please fix the errors listed below.')
 				->withInput()
 				->withErrors($validator);
 		}
@@ -142,12 +142,12 @@ class UserController extends BaseController {
 
 				Session::put("user_id", Auth::id());
 				Session::put("user_first_name", Auth::user()->first_name);
-				return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+				return Redirect::intended('/')->with('success_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
 
 			}
 			else {
 				return Redirect::to('/login')
-					->with('flash_message', 'Log in failed; please try again.')
+					->with('warning_message', 'Log in failed; please try again.')
 					->withInput();
 			}
 
@@ -158,12 +158,12 @@ class UserController extends BaseController {
 
 				Session::put("user_id", Auth::id());
 				Session::put("user_first_name", Auth::user()->first_name);
-				return Redirect::intended('/')->with('flash_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
+				return Redirect::intended('/')->with('success_message', 'Welcome back, ' . Session::get("user_first_name") . '!');
 
 			}
 			else {
 				return Redirect::to('/login')
-					->with('flash_message', 'Log in failed; please try again.')
+					->with('warning_message', 'Log in failed; please try again.')
 					->withInput();
 			}
 
@@ -204,7 +204,7 @@ class UserController extends BaseController {
         $user->save();
 
         return Redirect::to('/')
-        	->with('flash_message', 'Thank you for confirming your email address, ' . $user->first_name . '!');
+        	->with('success_message', 'Thank you for confirming your email address, ' . $user->first_name . '!');
     }
 
 }

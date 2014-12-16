@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Run Simple</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('styles/bootswatch-journal.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('styles/runsimple.css') }}" />
     <link rel="stylesheet" href="{{ asset('styles/datepicker.css') }}" />
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
@@ -12,30 +12,61 @@
 <body>
     <div class="container">
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Run Simple</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        @if(Auth::check())
-                            <li><a href='/run'>List runs</a></li>
-                            <li><a href='/run/create'>Add a run</a></li>
-                            <li><a href='/shoe'>List shoes</a></li>
-                            <li><a href='/shoe/create'>Add shoes</a></li>
-                            <li><a href='/logout'>Log out</a></li>
-                        @else
-                            <li><a href='/signup'>Sign up</a></li>
-                            <li><a href='/login'>Log in</a></li>
-                        @endif
-                    </ul>
-                </div>
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="/" class="navbar-brand">Run Simple</a>
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
             </div>
-        </nav>
+            <div class="navbar-collapse collapse" id="navbar-main">
 
-        @if(Session::get('flash_message'))
-            <div id="flash-div" class='alert alert-warning'>{{ Session::get('flash_message') }}</div>
+              @if(Auth::check())
+
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="/run" id="runs">Runs <span class="caret"></span></a>
+                  <ul class="dropdown-menu" aria-labelledby="runs">
+                    <li><a href="/run/create">Add Run</a></li>
+                    <li><a href="/run">View Runs</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="/run" id="shoes">Shoes <span class="caret"></span></a>
+                  <ul class="dropdown-menu" aria-labelledby="shoes">
+                    <li><a href="/shoe/create">Add Shoes</a></li>
+                    <li><a href="/shoe">View Shoes</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+
+              @else
+
+              <ul class="nav navbar-nav">
+                  <li><a href='/signup'>Sign Up</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href='/login'>Log In</a></li>
+              </ul>
+
+              @endif
+
+            </div>
+          </div>
+        </div>
+
+        @if(Session::get('warning_message'))
+            <div id="warning-div" class='alert alert-danger'>{{ Session::get('warning_message') }}</div>
+        @endif
+
+        @if(Session::get('success_message'))
+            <div id="success-div" class='alert alert-success'>{{ Session::get('success_message') }}</div>
         @endif
 
         @yield('content')
@@ -48,12 +79,18 @@
 
 <script type="text/javascript">
     window.setTimeout(function() {
-        $(".alert-warning").fadeTo(500, 0).slideUp(500, function(){
+        $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
+
+    window.setTimeout(function() {
+        $(".alert-success").fadeTo(500, 0).slideUp(500, function(){
             $(this).remove(); 
         });
     }, 4000);
 </script>
-
+    
 <script>
     $('#date').datepicker({
         format: "yyyy-mm-dd",

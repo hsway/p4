@@ -73,7 +73,7 @@ class RunController extends BaseController {
 			}
 			catch (Exception $e) {
 				return Redirect::to('/run/create')
-					->with('flash_message', 'Run creation failed; please try again.')
+					->with('warning_message', 'Run creation failed; please try again.')
 					->withInput();
 			}
 
@@ -82,14 +82,14 @@ class RunController extends BaseController {
 			$shoe->mileage += $run->mileage;
 			$shoe->save();
 
-			return Redirect::action('RunController@index')->with('flash_message', 'Run added');
+			return Redirect::action('RunController@index')->with('success_message', 'Run added');
 
 		} else {
 		    // failure, get errors
 		    $errors = $run->errors();
 
 		    return Redirect::to('/run/create')
-				->with(array('flash_message' => 'Run creation failed; please fix the errors listed below.',
+				->with(array('warning_message' => 'Run creation failed; please fix the errors listed below.',
 							 'errors'        => $errors))
 				->withInput();
 		}	
@@ -107,7 +107,7 @@ class RunController extends BaseController {
 			$run = Run::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/run')->with('flash_message', 'Run not found');
+			return Redirect::to('/run')->with('warning_message', 'Run not found');
 		}
 
 		return View::make('run_show')->with('run', $run);
@@ -126,7 +126,7 @@ class RunController extends BaseController {
 			$run = Run::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/run')->with('flash_message', 'Run not found');
+			return Redirect::to('/run')->with('warning_message', 'Run not found');
 		}
 
 		$user = Auth::user();
@@ -157,7 +157,7 @@ class RunController extends BaseController {
 			$run = Run::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/run')->with('flash_message', 'Run not found');
+			return Redirect::to('/run')->with('warning_message', 'Run not found');
 		}
 
 		// attempt validation
@@ -198,14 +198,14 @@ class RunController extends BaseController {
 			$run->shoe_id = Input::get('shoe_id');
 			$run->save();
 
-			return Redirect::action('RunController@index')->with('flash_message','Your run has been saved and shoe mileage updated.');
+			return Redirect::action('RunController@index')->with('success_message','Your run has been saved and shoe mileage updated.');
 
 		} else {
 		    // failure, get errors
     		$errors = $run->errors();
 
 		    return Redirect::to('/run/' . $run->id . '/edit')
-				->with(array('flash_message' => 'Run update failed; please fix the errors listed below.',
+				->with(array('warning_message' => 'Run update failed; please fix the errors listed below.',
 					         'errors'        => $errors))
 				->withInput();
 		}
@@ -224,14 +224,14 @@ class RunController extends BaseController {
 			$run = Run::findOrFail($id);
 		}
 		catch(Exception $e) {
-			return Redirect::to('/run')->with('flash_message', 'Run not found');
+			return Redirect::to('/run')->with('warning_message', 'Run not found');
 		}
 
 		# Note there's a `deleting` Model event which makes sure the linked Shoe's mileage is updated
 		# See Run.php for more details
 		Run::destroy($id);
 
-		return Redirect::action('RunController@index')->with('flash_message','Your run has been deleted.');
+		return Redirect::action('RunController@index')->with('success_message','Your run has been deleted.');
 
 	}
 }
