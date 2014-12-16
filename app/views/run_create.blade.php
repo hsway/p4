@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Add a Run</h1>
+<h2>Add a Run</h2>
 
 @if ($shoes->isEmpty())
 
