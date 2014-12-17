@@ -2,45 +2,51 @@
 
 @section('content')
 
+<h2>Update: Run on {{ $run->date }}</h2>
+
+<br>
+
+@foreach($errors->all() as $message)
+    <div class='error'>{{ $message }}</div>
+@endforeach
+
 	{{ Form::model($run, ['method' => 'put', 'action' => ['RunController@update', $run->id]]) }}
 
-		<h2>Update: Run on {{ $run->date }}</h2>
+	    <div class="form-group">
+	    {{-- Date field. -----------------------}}
+	    {{ Form::label('date', 'Date') }}
+	    <input class="form-control" id="date" name="date" type="text" value="{{ $run->date }}">
+	    </div>
 
-		@foreach($errors->all() as $message)
-	        <div class='error'>{{ $message }}</div>
-	    @endforeach
+	    <div class="form-group">
+	    {{-- Mileage field. --------------------}}
+	    {{ Form::label('mileage', 'Mileage') }}
+	    <input class="form-control" name="mileage" type="text" value="{{ $run->mileage }}">
+	    </div>
 
-		<div class='form-group'>
+	    <div class="form-group">
+	    {{-- Shoe dropdown. --------------------}}
+	    {{ Form::label('shoe_id', 'Shoe you ran in') }}<br>
+	    {{ Form::select('shoe_id', $shoes->lists('name','id')) }}
+	    </div>
 
-			    {{-- Date field. -----------------------}}
-			    {{ Form::label('date', 'Date') }}
-			    <input id="date" name="date" type="text" value="{{ $run->date }}"> YYYY-MM-DD<br />
+	    <div class="form-group">
+	    {{-- Notes field. ----------------------}}
+	    {{ Form::label('notes', 'Notes') }}
+	    <input class="form-control" name="notes" type="textarea" value="{{ $run->notes }}">
+	    </div>
 
-			    {{-- Mileage field. --------------------}}
-			    {{ Form::label('mileage', 'Mileage') }}
-			    {{ Form::text('mileage') }}<br />
+	{{ Form::submit('Update', array('class' => "btn btn-primary", 'id' => 'run_update_button')) }}
 
-			    {{-- Notes field. ----------------------}}
-			    {{ Form::label('notes', 'Notes') }}
-			    {{ Form::textarea('notes') }}<br />
+{{ Form::close() }}
 
-			    {{-- Shoe dropdown. --------------------}}
-			    {{ Form::label('shoe_id', 'Shoe you ran in') }}
-			    {{ Form::select('shoe_id', $shoes->lists('name','id')) }}
+<br>
 
-		</div>
-
-		{{ Form::submit('Update', array('class' => "btn btn-primary", 'id' => 'run_update_button')) }}
-
-	{{ Form::close() }}
-
-	<br>
-
-	{{---- DELETE -----}}
-	{{ Form::open(['action' => ['RunController@destroy', $run->id], 'id' => 'run_delete_form']) }}
-		<input type="hidden" value="DELETE" name="_method" id="run_delete_method">
-		<a id="run_delete_button" class="btn btn-danger" href='#' data-trigger="focus">Delete Run</a>
-	{{ Form::close() }}
+{{---- DELETE -----}}
+{{ Form::open(['action' => ['RunController@destroy', $run->id], 'id' => 'run_delete_form']) }}
+	<input type="hidden" value="DELETE" name="_method" id="run_delete_method">
+	<a id="run_delete_button" class="btn btn-danger" href='#' data-trigger="focus">Delete Run</a>
+{{ Form::close() }}
 
 @stop
 

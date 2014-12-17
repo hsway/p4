@@ -36,6 +36,6 @@
 
 <br>
 
-<p><a href="/password/remind">Need to reset your password?</p>
+<p><a href="/password/remind">Forgot your password?</p>
 
 @stop
