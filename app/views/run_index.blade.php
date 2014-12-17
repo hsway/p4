@@ -4,6 +4,8 @@
 
 <h2>{{ Auth::user()->first_name }}'s Runs</h2>
 
+<br>
+
 <p><a class="btn btn-primary" href='/run/create'>+ Add run</a></p>
 
 @if ($runs->isEmpty())
@@ -27,8 +29,8 @@
 				<td>{{ $run->mileage }}</td>
 				<td><a href="/shoe/{{ $run->shoe->id }}">{{ $run->shoe->name }}</a></td>
 				<td>
-					<a class="btn btn-success" href='/run/{{ $run->id }}'>View</a>&nbsp;
-					<a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>
+					<a class="btn btn-info" href='/run/{{ $run->id }}'>View</a>&nbsp;
+					<a class="btn btn-success" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>
 				</td>	
 			</tr>
 

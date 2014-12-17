@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<h2>Run on: {{ $run->date }}</h2>
+	<h2>Run on {{ $run->date }}</h2>
 
 	<div>
 	Created: {{ $run->created_at }}
@@ -28,6 +28,6 @@
 	
 	<br>
 
-	<p><a class="btn btn-warning" href='/run/{{ $run->id }}/edit'>Edit/Delete</a></p>
+	<p><a class="btn btn-success" href='/run/{{ $run->id }}/edit'>Edit/Delete</a></p>
 
 @stop

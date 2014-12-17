@@ -4,6 +4,8 @@
 
 <h2>{{ Auth::user()->first_name }}'s Shoes</h2>
 
+<br>
+
 <p><a class="btn btn-primary" href='/shoe/create'>+ Add shoes</a></p>
 
 @if ($shoes->isEmpty())
@@ -27,8 +29,8 @@
 				<td>{{ $shoe->mileage }}</td>
 				<td>{{ $shoe->purchase_date }}</td>
 				<td>
-					<a class="btn btn-success" href='/shoe/{{ $shoe->id }}'>View</a>&nbsp;
-					<a class="btn btn-warning" href='/shoe/{{ $shoe->id }}/edit'>Edit/Delete</a>
+					<a class="btn btn-info" href='/shoe/{{ $shoe->id }}'>View</a>&nbsp;
+					<a class="btn btn-success" href='/shoe/{{ $shoe->id }}/edit'>Edit/Delete</a>
 				</td>	
 			</tr>
 
