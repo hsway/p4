@@ -12,10 +12,6 @@
 
 @else
 
-    @foreach($errors->all() as $message)
-        <div class='error'>{{ $message }}</div>
-    @endforeach
-
     {{ Form::open(array('action' => 'RunController@store')) }}
 
         <div class="form-group">
@@ -24,11 +20,19 @@
         {{ Form::text('date', '', array('id' => 'date', 'class' => 'form-control', 'placeholder' => 'YYYY-MM-DD')) }}
         </div>
 
+        @if($errors->has('date'))
+            <div class='error'>{{ $errors->first('date') }}</div><br>
+        @endif
+
         <div class="form-group">
         {{-- Mileage field. --------------------}}
         {{ Form::label('mileage', 'Mileage') }}
         {{ Form::text('mileage', '', array('class'=>'form-control', 'placeholder'=> 'round to one decimal point')) }}
         </div>
+
+        @if($errors->has('mileage'))
+            <div class='error'>{{ $errors->first('mileage') }}</div><br>
+        @endif
 
         <div class="form-group">
         {{-- Shoe dropdown. --------------------}}

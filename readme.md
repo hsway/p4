@@ -15,6 +15,8 @@ Please make your own account to test. I implemented email verification, so you'l
 
 I also noticed that the delete confirmation popovers don't work on my iPhone.
 
+I may also make a few commits after the due date, but I promise I'll restrict myself to styling changes. ;)
+
 ## Outside code
 * Bootswatch Journal: <http://bootswatch.com/journal/>
 * delete confirmations: <https://github.com/Tavicu/bootstrap-confirmation>

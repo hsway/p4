@@ -14,29 +14,31 @@
 
 @else
 
-	<table>
-		<tr>
-			<th>Run Date</th>
-			<th>Mileage</th>
-			<th>Shoe</th>
-			<th>Actions</th>
-		</tr>
-
-		@foreach($runs as $run)
-		
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered">
 			<tr>
-				<td><a href='/run/{{ $run->id }}'>{{ $run->date }}</a></td>
-				<td>{{ $run->mileage }}</td>
-				<td><a href="/shoe/{{ $run->shoe->id }}">{{ $run->shoe->name }}</a></td>
-				<td>
-					<a class="btn btn-info" href='/run/{{ $run->id }}'>View</a>&nbsp;
-					<a class="btn btn-success" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>
-				</td>	
+				<th>Run Date</th>
+				<th>Mileage</th>
+				<th>Shoe</th>
+				<th>Actions</th>
 			</tr>
 
-		@endforeach
+			@foreach($runs as $run)
+			
+				<tr>
+					<td><a href='/run/{{ $run->id }}'>{{ $run->date }}</a></td>
+					<td>{{ $run->mileage }}</td>
+					<td><a href="/shoe/{{ $run->shoe->id }}">{{ $run->shoe->name }}</a></td>
+					<td>
+						<a class="btn btn-info" href='/run/{{ $run->id }}'>View</a>&nbsp;
+						<a class="btn btn-success" href='/run/{{ $run->id }}/edit'>Edit/Delete</a>
+					</td>	
+				</tr>
 
-	</table>
+			@endforeach
+
+		</table>
+	</div>
 
 @endif
 

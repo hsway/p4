@@ -6,10 +6,6 @@
 
 	<br>
 
-	@foreach($errors->all() as $message)
-        <div class='error'>{{ $message }}</div>
-    @endforeach
-
 	{{ Form::model($shoe, ['method' => 'put', 'action' => ['ShoeController@update', $shoe->id]]) }}
 
 		<div class="form-group">
@@ -18,17 +14,29 @@
 	    <input class="form-control" id="name" name="name" type="text" value="{{ $shoe->name }}">
 	    </div>
 
+	    @if($errors->has('name'))
+	        <div class="error">{{ $errors->first('name') }}</div><br>
+	    @endif
+
 	    <div class="form-group">
 	    {{-- Purchase date field. -----------------------}}
 	    {{ Form::label('purchase_date', 'Purchase date') }}
 	    <input class="form-control" id="date" name="purchase_date" type="text" value="{{ $shoe->purchase_date }}">
 	    </div>
 
+	    @if($errors->has('purchase_date'))
+	        <div class="error">{{ $errors->first('purchase_date') }}</div><br>
+	    @endif
+
 	    <div class="form-group">
 	    {{-- Total mileage field. -----------------------}}
 	    {{ Form::label('mileage', 'Total mileage') }}
 	    <input class="form-control" id="mileage" name="mileage" type="text" value="{{ $shoe->mileage }}">
 	    </div>
+
+	    @if($errors->has('mileage'))
+	        <div class="error">{{ $errors->first('mileage') }}</div><br>
+	    @endif
 
 		{{ Form::submit('Update', array('class' => 'btn btn-primary', 'id' => 'shoe_update_button')) }}
 

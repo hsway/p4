@@ -6,10 +6,6 @@
 
 <br>
 
-@foreach($errors->all() as $message)
-    <div class='error'>{{ $message }}</div>
-@endforeach
-
 	{{ Form::model($run, ['method' => 'put', 'action' => ['RunController@update', $run->id]]) }}
 
 	    <div class="form-group">
@@ -18,11 +14,19 @@
 	    <input class="form-control" id="date" name="date" type="text" value="{{ $run->date }}">
 	    </div>
 
+	    @if($errors->has('date'))
+            <div class='error'>{{ $errors->first('date') }}</div><br>
+        @endif
+
 	    <div class="form-group">
 	    {{-- Mileage field. --------------------}}
 	    {{ Form::label('mileage', 'Mileage') }}
 	    <input class="form-control" name="mileage" type="text" value="{{ $run->mileage }}">
 	    </div>
+
+	    @if($errors->has('mileage'))
+            <div class='error'>{{ $errors->first('mileage') }}</div><br>
+        @endif
 
 	    <div class="form-group">
 	    {{-- Shoe dropdown. --------------------}}

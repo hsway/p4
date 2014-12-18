@@ -6,10 +6,6 @@
 
 <br>
 
-@foreach($errors->all() as $message)
-    <div class='error'>{{ $message }}</div>
-@endforeach
-
 {{ Form::open(array('url' => 'login')) }}
 
     <div class="form-group">
@@ -18,11 +14,19 @@
     {{ Form::email('email', '', array('class'=>'form-control', 'placeholder'=>'you@somewhere.com')) }}
     </div>
 
+    @if($errors->has('email'))
+        <div class="error">{{ $errors->first('email') }}</div><br>
+    @endif
+
     <div class="form-group">
     {{-- Password field. ------------------------}}
     {{ Form::label('password', 'Password') }}
     {{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'******')) }}
     </div>
+
+    @if($errors->has('password'))
+        <div class="error">{{ $errors->first('password') }}</div><br>
+    @endif
 
     <div class="checkbox">
     {{-- Remember me? ---------------------------}}
