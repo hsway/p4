@@ -13,20 +13,36 @@ div #warning-div, div #success-div {
 	color:red;
 }
 
-#home-wrapper {
-  clear: both;
+/* styles for welcome.blade.php */
+
+.jumbotron {
+    width: 100%;
+    overflow: hidden;
+    font-size: 0;
 }
 
-#home-jumbo {
-  float: left;
-  width: 100%;
+.jumbotron > div {
+    display:inline-block;
+    vertical-align: middle;
+    font-size: 1rem;
+}
+
+#jumbo-text {
+    width: 60%;
+}
+
+#jumbo-image {
+    width: 40%;
 }
 
 #logo {
-  float: right;
-  max-width: 30%;
-  max-height: 30%;
+  max-width: 70%;
+  max-height: 70%;
 }
+
+/* end styles for welcome.blade.php */
+
+
 
 /* Sticky footer styles below, modified from 
 http://getbootstrap.com/examples/sticky-footer/sticky-footer.css
