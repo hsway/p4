@@ -77,7 +77,7 @@
     <footer>
         <div class="container">
             <p class="text-muted">
-              <span class="glyphicon glyphicon-copyright-mark"></span> 2014 Hank Sway&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &copy; 2014 Hank Sway&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <a href="https://github.com/hsway/p4" target="_blank">View my code @GitHub</a>
             </p>
         </div>

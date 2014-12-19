@@ -13,6 +13,10 @@ div #warning-div, div #success-div {
 	color:red;
 }
 
+td {
+  vertical-align: middle !important;
+}
+
 /* styles for welcome.blade.php */
 
 .jumbotron {
@@ -42,7 +46,9 @@ div #warning-div, div #success-div {
 
 /* end styles for welcome.blade.php */
 
-
+.heading {
+  font-weight: bold;
+}
 
 /* Sticky footer styles below, modified from 
 http://getbootstrap.com/examples/sticky-footer/sticky-footer.css

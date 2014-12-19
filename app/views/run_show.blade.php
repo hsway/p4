@@ -4,24 +4,29 @@
 
 	<h2>Run on {{ $run->date }}</h2>
 
-	<div>
-	Created: {{ $run->created_at }}
+	<div class="row">
+		<div class="col-md-2 heading">Mileage:</div>
+		<div class="col-md-10">{{ $run->mileage }}</div>
 	</div>
 
-	<div>
-	Last Updated: {{ $run->updated_at }}
+	<div class="row">
+		<div class="col-md-2 heading">Shoe:</div>
+		<div class="col-md-10"><a href="/shoe/{{ $run->shoe->id }}">{{ $run->shoe->name }}</a></div>
 	</div>
 
-	<div>
-	Mileage: {{ $run->mileage }}
+	<div class="row">
+		<div class="col-md-2 heading">Notes:</div>
+		<div class="col-md-10">{{ $run->notes }}</div>
 	</div>
 
-	<div>
-	Notes: {{ $run->notes }}
+	<div class="row">
+		<div class="col-md-2 heading">Created:</div>
+		<div class="col-md-10">{{ $run->created_at }}</div>
 	</div>
 
-	<div>
-	Shoe: {{ Shoe::find($run->shoe_id)->name }}
+	<div class="row">
+		<div class="col-md-2 heading">Last Updated:</div>
+		<div class="col-md-10">{{ $run->updated_at }}</div>
 	</div>
 
 	{{---- Edit ----}}
